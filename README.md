@@ -11,7 +11,9 @@ For support, join the [Waffle Development Discord Guild](https://discord.com/inv
 
 ### Prerequisites
 
-- [discord.py](https://github.com/)
+- [Python](https://www.python.org/downloads/) (3.8 or later reccomended)
+- [pydsl](https://pypi.org/project/pydsl/)
+- [discord.py](https://github.com/) 
 - [pymongo](https://pypi.org/project/pymongo/)
 - A [MongoDB](https://www.mongodb.com/) account and cluster (this is free)
 
