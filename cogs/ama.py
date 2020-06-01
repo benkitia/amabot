@@ -51,9 +51,11 @@ class AMA(commands.Cog):
         submission_channel = self.bot.get_channel(submission_channel_id)
         if ctx.message.channel.id == submission_channel.id:
             if not ctx.message.content.endswith("?"):
+                configvars = config.find_one({"_id":"1"})
+                botid = int(configvars["bot id"])
                 if ctx.message.content.startswith("a!"):
                     return
-                if ctx.message.author.id == {int(botid)}:
+                if ctx.message.author.id == botid:
                     return
                 return await ctx.send(f"{ctx.message.author.mention} questions must end with a `?` else they won't be submitted")
             if ctx.message.content.endswith("?"):
