@@ -38,7 +38,7 @@ class Admin(commands.Cog):
             await ctx.send(f':ok_hand: reloaded extension: {module}')
 
     @commands.command()
-    @commands.has_role("Administrator") 
+    @commands.is_owner()
     async def say(self, ctx, *, content):
         arthur = ctx.message.author
         try:
@@ -51,18 +51,18 @@ class Admin(commands.Cog):
             return await arthur.send("<:error:696628928458129488> I couldn't delete your invocation message because I don't have sufficient permissions")
 
     @commands.command()
-    @commands.has_role("Administrator")
+    @commands.is_owner()
     async def setpresence(self, ctx, type:int, *, presence:str):
         await self.bot.change_presence(activity=discord.Activity(name=presence, type=type))
         await ctx.send(f":ok_hand: Bot presence set to `{presence}`")
 
     @commands.command(aliases=['logout'], description="Logs the bot out", hidden=True)
-    @commands.has_role("Administrator")
+    @commands.is_owner()
     async def close(self, ctx):
         await self.bot.close()
 
     @commands.command()
-    @commands.has_role("Administrator")
+    @commands.is_owner()
     async def messageuser(self, ctx, member:discord.Member, *, message):
         try:
             await member.send(message)
