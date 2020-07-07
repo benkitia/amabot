@@ -7,13 +7,12 @@ import random
 cluster = MongoClient("")
 db = cluster["amabot"]
 questions = db["questions"]
-config = db["config"]
 
 class AMA(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
-        
+     
     @commands.Cog.listener()
     async def on_message(self, message):
         ctx: commands.Context = await self.bot.get_context(message)

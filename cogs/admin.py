@@ -1,12 +1,6 @@
 import discord
 from discord.ext import commands
 from copy import deepcopy
-import pymongo
-from pymongo import MongoClient
-
-cluster = MongoClient("")
-db = cluster["amabot"]
-config = db["config"]
 
 class Admin(commands.Cog):
 
@@ -100,13 +94,6 @@ class Admin(commands.Cog):
             await ctx.send(f":ok_hand: left {guild.name}")
         except:
             await ctx.send("Error leaving guild")
-
-    @commands.command(hidden=True)
-    @commands.is_owner()
-    async def create_config(self, ctx):
-        newconfig = {"_id":"1","paused":"No"}
-        config.insert_one(newconfig)
-        await ctx.send(":ok_hand: Done")
 
 def setup(bot):
     bot.add_cog(Admin(bot))
