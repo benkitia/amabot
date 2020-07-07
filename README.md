@@ -16,6 +16,7 @@ For support, join the [Waffle Development Discord Guild](https://discord.com/inv
 - [discord.py](https://github.com/) 
 - [pymongo](https://pypi.org/project/pymongo/)
 - A [MongoDB](https://www.mongodb.com/) account and cluster (this is free)
+- A Discord [application and bot account](https://discord.com/developers/applications/me) (also free)
 
 ### Guide
 
@@ -23,13 +24,12 @@ For support, join the [Waffle Development Discord Guild](https://discord.com/inv
 2. Login with your Discord account [here](https://discord.com/developers/applications) and click "New Application"
 3. Click "Bot", then "Add Bot", then "Yes, do it"
 4. Name your bot and add a profile picture (optional)
-5. Open main.py in a text editor and add a token inside the quotes
+5. Find and save your token somewhere safe
 6. Create a MongoDB cluster, this should be easy to figure out. Use Google as a resource if you're having difficulties
 7. Create a database called "amabot" and 2 collections called "questions" and "config" respectively
-8. Import from configexaple.json to the config collection and replace variables
-9. Grab your Mongo URI to connect to your cluster and paste it in the quotes within the brackets accompanying "MongoClient" near the top of admin.py and ama.py
-
-It's useful to know a bit of python and discord.py to make edits like staff and admin roles
+8. Rename configexample.py to Config.py and replace the variables 
+9. Grab your Mongo URI to connect to your cluster and paste it in the quotes within the brackets accompanying "MongoClient" near the top ama.py
+10. Navigate to the main bot folder in terminal and type `python main.py` if you're on Windows, and `python3 main.py` if you're on a unix-based OS
 
 For support, join the [Waffle Development Discord Guild](https://discord.com/invite/zrBqN2v) or email support@waffledev.xyz
 
