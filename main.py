@@ -1,12 +1,10 @@
 import discord
 from discord.ext import commands
+import Config
 
-token = '' 
-prefix = "a!"
+bot = commands.Bot(command_prefix=Config.PREFIX)
 
-bot = commands.Bot(command_prefix=prefix)
-
-cogs = ['cogs.ama','cogs.admin']
+cogs = ['cogs.admin','cogs.ama']
 
 @bot.event
 async def on_ready():
@@ -21,4 +19,4 @@ async def on_ready():
         print("All extensions loaded successfully")
         print("______________")
 
-bot.run(token)
+bot.run(Config.TOKEN)
