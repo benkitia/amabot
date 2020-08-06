@@ -5,7 +5,6 @@ from pymongo import MongoClient
 import random
 import Config
 
-cluster = MongoClient("mongodb+srv://trying:noodleman@cluster0-zjpih.mongodb.net/amabot?retryWrites=true&w=majority") # Put the Mongo URI within these brackets
 cluster = Config.CLUSTER
 db = cluster["amabot"]
 questions = db["questions"]
