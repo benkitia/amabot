@@ -6,6 +6,7 @@ import random
 import Config
 
 cluster = MongoClient("mongodb+srv://trying:noodleman@cluster0-zjpih.mongodb.net/amabot?retryWrites=true&w=majority") # Put the Mongo URI within these brackets
+cluster = Config.CLUSTER
 db = cluster["amabot"]
 questions = db["questions"]
 
@@ -13,7 +14,7 @@ class AMA(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
-     
+    
     @commands.Cog.listener()
     async def on_message(self, message):
         ctx: commands.Context = await self.bot.get_context(message)
@@ -31,7 +32,7 @@ class AMA(commands.Cog):
             question = question.replace("*","")
             responsem = discord.Embed(
                 description=f"**{question}** {answer}",
-                color=0xEE7662
+                color = Config.COLOR
                 )
             responsem.set_author(
                 icon_url=Config.GUEST_AVATAR_URL,
@@ -39,7 +40,7 @@ class AMA(commands.Cog):
                 )
             public_facing_channel = self.bot.get_channel(Config.PUBLIC_FACING_CHANNEL_ID)
             await public_facing_channel.send(embed=responsem)
-            await message.add_reaction('<:success:696628918043541585>')
+            await message.add_reaction('☑️')
         submission_channel = self.bot.get_channel(Config.SUMBISSION_CHANNEL_ID)
         if ctx.message.channel.id == submission_channel.id:
             if not ctx.message.content.endswith("?"):
@@ -51,15 +52,14 @@ class AMA(commands.Cog):
             if ctx.message.content.endswith("?"):
                 queue_channel = self.bot.get_channel(Config.QUEUE_CHANNEL_ID)
                 question = ctx.message.content
-                finddupe = questions.find_one({"content":question})
+                finddupe = questions.find_one({"question":question})
                 if finddupe:
                     return await ctx.send(f"{ctx.message.author.mention} Your question has been automatically denied: duplicate")
                 questionid = random.randint(1000000000, 9999999999)
                 newquestion = {
-                    "user":str(ctx.message.author),
-                    "uid":str(ctx.message.author.id),
+                    "user":str(ctx.message.author.id),
                     "qid":str(questionid),
-                    "content":str(question),
+                    "question":str(question),
                     "status":"Pending",
                     "mod":""
                     }
@@ -67,7 +67,7 @@ class AMA(commands.Cog):
                 embed = discord.Embed(
                     title=f"New question",
                     description=question,
-                    color=0xEE7662
+                    color=Config.COLOR
                     )
                 embed.set_author(
                     name=f"{ctx.message.author} ({ctx.message.author.id})",
@@ -75,8 +75,8 @@ class AMA(commands.Cog):
                     )
                 embed.set_footer(text=f"Question ID: {questionid}")
                 qpost = await queue_channel.send(questionid, embed = embed)
-                await qpost.add_reaction(':ballot_box_with_check:')
-                await qpost.add_reaction(':regional_indicator_x:')
+                await qpost.add_reaction('☑️')
+                await qpost.add_reaction('❌')
                 await ctx.send(f"{ctx.message.author.mention} Your question: `{question}` has been sent to mods for approval. Thank you for participating! You'll be able to ask another question in 5 minutes. Question ID: {questionid}")
 
     @commands.Cog.listener()
@@ -84,8 +84,15 @@ class AMA(commands.Cog):
         if reaction.message.channel.id == Config.ANSWERING_CHANNEL_ID:
             if user.id == self.bot.user.id:
                 return
-            if str(reaction.emoji) == ':regional_indicator_x:':
+            if str(reaction.emoji) == '❌':
                 await reaction.message.delete()
+                log_channel = self.bot.get_channel(Config.LOG_CHANNEL_ID)
+                guestreject = discord.Embed(
+                    title = "Question Rejected by Guest",
+                    description = reaction.message.content,
+                    color = 0xff563a
+                )
+                await log_channel.send(embed=guestreject)
         queue_channel = self.bot.get_channel(Config.QUEUE_CHANNEL_ID)
         if user.id == self.bot.user.id or reaction.message.channel.id != queue_channel.id:
             return
@@ -96,11 +103,9 @@ class AMA(commands.Cog):
             return await reaction.message.channel.send("Non-question, can't approve that")
         log_channel = self.bot.get_channel(Config.LOG_CHANNEL_ID)
         result = questions.find_one({"qid":questionid})
-        sidstr = result["uid"]
-        sid = int(sidstr)
-        submitter = self.bot.get_user(sid)
-        question = result["content"]
-        if str(reaction.emoji) == ':ballot_box_with_check:':
+        submitter = self.bot.get_user(int(result["user"]))
+        question = result["question"]
+        if str(reaction.emoji) == '☑️':
             try:
                 questions.insert_one(({"_id":"1","paused":"No"}))
             except:
@@ -111,36 +116,36 @@ class AMA(commands.Cog):
                 return
             await reaction.message.delete()
             questions.update_one({"qid":questionid},{"$set":{"status":"Approved"}})
-            questions.update_one({"qid":questionid},{"$set":{"mod":str(user.name)}})
+            questions.update_one({"qid":questionid},{"$set":{"mod":str(user.id)}})
             log = discord.Embed(
                 title="Question Approved",
-                description=f"Question #{questionid} from {submitter} ({submitter.id}): '`{question}`' approved by {user.name}",
-                color=0x3affa7
+                description=f"Question #{questionid} from {submitter} ({submitter.id}): '`{question}`' approved by {user}",
+                color=discord.Color.green()
                 )
             submission_channel = self.bot.get_channel(Config.SUMBISSION_CHANNEL_ID)
             await submission_channel.send(f"{submitter.mention} Your question {questionid} was approved and may be answered shortly.")
             await log_channel.send(embed=log)
             answering_channel = self.bot.get_channel(Config.ANSWERING_CHANNEL_ID)
             questionpst = await answering_channel.send(f"**Question from {submitter.mention}:** {question}")
-            await questionpst.add_reaction(':regional_indicator_x:')       
-        if str(reaction.emoji) == ':regional_indicator_x:':
+            await questionpst.add_reaction('❌')       
+        if str(reaction.emoji) == '❌':
             await reaction.message.delete()
             questions.update_one({"qid":questionid},{"$set":{"status":"Denied"}})
-            questions.update_one({"qid":questionid},{"$set":{"mod":str(user.name)}})
+            questions.update_one({"qid":questionid},{"$set":{"mod":str(user.id)}})
             log = discord.Embed(
                 title="Question Denied",
-                description=f"Question #{questionid} from {submitter} ({submitter.id}) '`{question}`' denied by {user.name}",
-                color=0xff7373
+                description=f"Question #{questionid} from {submitter} ({submitter.id}) '`{question}`' denied by {user}",
+                color=0xff563a
                 )
             submission_channel = self.bot.get_channel(Config.SUMBISSION_CHANNEL_ID)
             await submission_channel.send(f"{submitter.mention} Your question {questionid} was denied by moderators.")
             await log_channel.send(embed=log)
 
     @commands.command()
-    @commands.has_role('Staff')
-    async def question(self, ctx, questionidinput):
+    @commands.has_any_role(Config.STAFF_ROLE_ID,Config.ADMIN_ROLE_ID)
+    async def question(self, ctx, questionid):
         try:
-            questionid = int(questionidinput)
+            questionid = int(questionid)
             questionid = str(questionid)
         except:
             return await ctx.send(":x: Invalid question ID: not a number")
@@ -148,21 +153,22 @@ class AMA(commands.Cog):
             return await ctx.send(":x: Invalid question ID: not 10 digits")
         try:
             result = questions.find_one({"qid":questionid})
-            sid = int(result["uid"])
+            sid = int(result["user"])
             qid = result["qid"]
-            question = result["content"]
+            question = result["question"]
             status = result["status"]
             mod = result["mod"]
         except:
             return await ctx.send(":x: Invalid question ID: question not found")
         submitter = self.bot.get_user(sid)
+        mod = self.bot.get_user(int(mod))
         embed = discord.Embed(
             title=f"Question {qid}",
             description=f"""**Submitter:** {submitter} ({submitter.id})
             **Question:** {question}
             **Status:** {status}
             **Approved/denied by**: {mod}""",
-            color=0xEE7662
+            color=Config.COLOR
             )
         embed.set_footer(text=f"Requested by {ctx.message.author}")
         await ctx.send(embed=embed)
@@ -173,20 +179,18 @@ class AMA(commands.Cog):
         denied = questions.count_documents({"status":"Denied"})
         pending = questions.count_documents({"status":"Pending"})
         embed = discord.Embed(
-            title = "AMA Question Stats",
-            description = f"""**Approved questions:** {approved}
+            title="AMA Question Stats",
+            description=f"""**Approved questions:** {approved}
             **Denied questions:** {denied}
             **Pending questions:** {pending}""",
-            color=0xEE7662
+            color=Config.COLOR
         )
         embed.set_footer(text=f"Requested by {ctx.message.author}")
         await ctx.send(embed=embed)
 
     @commands.command()
+    @commands.has_any_role(Config.STAFF_ROLE_ID,Config.ADMIN_ROLE_ID)
     async def ban(self, ctx, target:discord.Member=None, *, reason=None):
-        staffrole = discord.utils.get(ctx.guild.roles, id=Config.STAFF_ROLE_ID)
-        if staffrole not in ctx.message.author.roles:
-            await ctx.send(":x: You do not have permission to run this command")
         if target == None:
             return await ctx.send(":x: You must provide a member to mute")
         if target.id == ctx.message.author.id:
@@ -194,16 +198,13 @@ class AMA(commands.Cog):
         role = discord.utils.get(ctx.guild.roles, id=Config.BAN_ROLE_ID)
         await target.add_roles(role, reason=f"{ctx.message.author}: {reason}")
         await ctx.send(f":ok_hand: muted {target} from AMA channels (`{reason}`)")
-        log_channel_id = 727247203432792185
-        log_channel = self.bot.get_channel(log_channel_id)
-        embed = discord.Embed(title="User AMA barred",description=f"{target} ({target.id}) muted by {ctx.message.author}\nReason: {reason}",color=0xEE7662)
+        log_channel = self.bot.get_channel(config.LOG_CHANNEL_ID)
+        embed = discord.Embed(title="User AMA barred",description=f"{target} ({target.id}) muted by {ctx.message.author}\nReason: {reason}",color=0xff563a)
         await log_channel.send(embed=embed)
 
     @commands.command()
+    @commands.has_any_role(Config.STAFF_ROLE_ID,Config.ADMIN_ROLE_ID)
     async def unban(self, ctx, target:discord.Member=None, *, reason=None):
-        staffrole = discord.utils.get(ctx.guild.roles, id=Config.STAFF_ROLE_ID)
-        if staffrole not in ctx.message.author.roles:
-            await ctx.send(":x: You do not have permission to run this command")
         if target == None:
             return await ctx.send(":x: You must provide a member to unmute")
         if target.id == ctx.message.author.id:
@@ -211,16 +212,13 @@ class AMA(commands.Cog):
         role = discord.utils.get(ctx.guild.roles, id=Config.BAN_ROLE_ID)
         await target.remove_roles(role, reason=reason)
         await ctx.send(f":ok_hand: unmuted {target} (`{reason}`)")
-        log_channel_id = 727247203432792185
-        log_channel = self.bot.get_channel(log_channel_id)
-        embed = discord.Embed(title="User AMA unbarred",description=f"{target} ({target.id}) unmuted by {ctx.message.author}\nReason: {reason}",color=0xEE7662)
+        log_channel = self.bot.get_channel(config.LOG_CHANNEL_ID)
+        embed = discord.Embed(title="User AMA unbarred",description=f"{target} ({target.id}) unmuted by {ctx.message.author}\nReason: {reason}",color=0x18ec6b)
         await log_channel.send(embed=embed)
 
     @commands.command()
+    @commands.has_any_role(Config.STAFF_ROLE_ID,Config.ADMIN_ROLE_ID)
     async def approve(self, ctx, questionid):
-        staffrole = discord.utils.get(ctx.guild.roles, id=Config.STAFF_ROLE_ID)
-        if staffrole not in ctx.message.author.roles:
-            await ctx.send(":x: You do not have permission to run this command")
         try:
             dynamicsettings = questions.find_one({"_id":"1"})
         except:
@@ -239,38 +237,33 @@ class AMA(commands.Cog):
         except:
             return await ctx.send(":x: Invalid question ID: question not found")
         log_channel = self.bot.get_channel(Config.LOG_CHANNEL_ID)
-        sidstr = result["uid"]
+        sidstr = result["user"]
         sid = int(sidstr)
         submitter = self.bot.get_user(sid)
-        question = result["content"]
+        question = result["question"]
         questions.update_one({"qid":questionid},{"$set":{"status":"Approved"}})
         questions.update_one({"qid":questionid},{"$set":{"mod":str(ctx.message.author.name)}})
         log = discord.Embed(
             title="Question Approved",
             description=f"Question #{questionid} from {submitter} ({submitter.id}): '`{question}`' approved by {ctx.message.author.name}",
-            color=0x3affa7
+            color=0x18ec6b
             )
         submission_channel_id = Config.SUMBISSION_CHANNEL_ID
         submission_channel = self.bot.get_channel(submission_channel_id)
         await submission_channel.send(f"{submitter.mention} Your question {questionid} was approved and may be answered shortly.")
         await log_channel.send(embed=log)
-        answering_channel_id = config.ANSWERING_CHANNEL_ID
         answering_channel = self.bot.get_channel(Config.ANSWERING_CHANNEL_ID)
         await answering_channel.send(f"**Question from {submitter.mention}:** {question}")
 
     @commands.command()
+    @commands.has_role(Config.ADMIN_ROLE_ID)
     async def pause(self, ctx):
-        adminrole = discord.utils.get(ctx.guild.roles, id=Config.ADMIN_ROLE_ID)
-        if adminrole not in ctx.message.author.roles:
-            await ctx.send(":x: You do not have permission to run this command")
         questions.update_one({"_id":"1"},{"$set":{"paused":"Yes"}})
         await ctx.send(":ok_hand: Paused")
 
     @commands.command()
+    @commands.has_role(Config.ADMIN_ROLE_ID)
     async def unpause(self, ctx):
-        adminrole = discord.utils.get(ctx.guild.roles, id=Config.ADMIN_ROLE_ID)
-        if adminrole not in ctx.message.author.roles:
-            await ctx.send(":x: You do not have permission to run this command")
         questions.update_one({"_id":"1"},{"$set":{"paused":"No"}})
         await ctx.send(":ok_hand: Unpaused")
 

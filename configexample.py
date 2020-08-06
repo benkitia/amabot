@@ -1,44 +1,37 @@
-# Your bot token goes within the quotes
-TOKEN = ''
+import pymongo
+from pymongo import MongoClient
 
-# The desired charectar(s) preceeding a command
-PREFIX = 'a!'
+CLUSTER = MongoClient("") # put your MongoDB URI within the quotes
 
-# THe User IDs for users allowed to run owner commands
-OWNER_IDS = [123456789012345678, 123456789012345678]
+TOKEN = '' # Your bot token goes within the quotes
 
-# The channel ID for the channel where users post their questions
-SUMBISSION_CHANNEL_ID = 123456789012345678
+PREFIX = 'a!' # The desired charectar(s) preceeding a command
 
-# The channel ID for the channel where questions wait to be approved/denied
-QUEUE_CHANNEL_ID = 123456789012345678 
+SUMBISSION_CHANNEL_ID = 123456789012345678 # The channel ID for the channel where users post their questions
 
-# The channel ID for the channel where the guest types answers to the questions
-ANSWERING_CHANNEL_ID = 123456789012345678
+QUEUE_CHANNEL_ID = 123456789012345678 # The channel ID for the channel where questions wait to be approved/denied
 
-# The channel ID for the channel where questions/answers are posted
-PUBLIC_FACING_CHANNEL_ID = 123456789012345678 
+ANSWERING_CHANNEL_ID = 123456789012345678 # The channel ID for the channel where the guest types answers to the questions
 
-# The channel ID for the channel where all actions are logged
-LOG_CHANNEL_ID = 123456789012345678
+PUBLIC_FACING_CHANNEL_ID = 123456789012345678 # The channel ID for the channel where questions/answers are posted
 
-# The user ID of the guest
-GUEST_USER_ID = 123456789012345678
+LOG_CHANNEL_ID = 123456789012345678 # The channel ID for the channel where all actions are logged
 
-# The role ID of the ban role
-BAN_ROLE_ID = 123456789012345678 
+GUEST_USER_ID = 123456789012345678 # The user ID of the guest
 
-# The guest's name
-GUEST_NAME = "Barack Obama"
+BAN_ROLE_ID = 123456789012345678 # The role ID of the ban role
 
-# An avatar URL for the guest
+GUEST_NAME = "Barack Obama" # The guest's name
+
 GUEST_AVATAR_URL = "https://i.imgur.com/MWpzv8a.jpg" # an avatar url for the guest
 
-# The role ID of the staff/moderator role
-STAFF_ROLE_ID = 707839673560727592
+STAFF_ROLE_ID = 707839673560727592  # The role ID of the staff/moderator role
 
-# The role ID of the administrator/server manager role
+ADMIN_ROLE_ID = 712770953599254629 # The role ID of the administrator/server manager role
 
-ADMIN_ROLE_ID = 712770953599254629
+COLOR = 0x000000 # The hex value for the color you'd like the bot to use for embeds. Enter it after "0x" WITHOUT #
+
 
 # THE BOT WILL BREAK IF ALL OF THE INT VALUES ARE NOT REPLACED!
+# MAKING MAJOR EDITS TO THIS FILE OUTSIDE OF THE DIRECTIONS IN DOCUMENTATION WILL CAUSE THE BOT TO BREAK
+# MAKE SURE YOU RENAME THIS FILE Config.py
