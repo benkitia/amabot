@@ -76,7 +76,7 @@ class AMA(commands.Cog):
                 qpost = await queue_channel.send(questionid, embed = embed)
                 await qpost.add_reaction('☑️')
                 await qpost.add_reaction('❌')
-                await ctx.send(f"{ctx.message.author.mention} Your question: `{question}` has been sent to mods for approval. Thank you for participating! You'll be able to ask another question in 5 minutes. Question ID: {questionid}")
+                await ctx.send(f"{ctx.message.author.mention} Your question: `{question}` has been sent to mods for approval. Thank you for participating! Question ID: {questionid}")
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
