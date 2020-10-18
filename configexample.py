@@ -25,9 +25,9 @@ GUEST_NAME = "Barack Obama" # The guest's name
 
 GUEST_AVATAR_URL = "https://i.imgur.com/MWpzv8a.jpg" # an avatar url for the guest
 
-STAFF_ROLE_ID = 707839673560727592  # The role ID of the staff/moderator role
+STAFF_ROLE_ID = 123456789012345678  # The role ID of the staff/moderator role
 
-ADMIN_ROLE_ID = 712770953599254629 # The role ID of the administrator/server manager role
+ADMIN_ROLE_ID = 123456789012345678 # The role ID of the administrator/server manager role
 
 COLOR = 0x000000 # The hex value for the color you'd like the bot to use for embeds. Enter it after "0x" WITHOUT #
 
