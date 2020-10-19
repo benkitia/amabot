@@ -1,8 +1,8 @@
 # AMA Bot
 
-AMA Bot is an open-source Discord bot for hosting crown-sourced interviews right in your Discord server.
-The bot was originally made for the [r/iPhone Discord](https://iphonediscord.info) by [waffles](https://bensonkitia.me) written in python using the [discord.py](https://github.com/Rapptz/discord.py)
-AMA Bot has been used to host guests like Rene Ritchie and Tailosive Tech, with hundreds of thousands of internet followers
+AMA Bot is an open-source Discord bot for hosting crown-sourced interviews right in your Discord server.  
+The bot was originally made for the [r/iPhone Discord](https://iphonediscord.info) by [waffles](https://bensonkitia.me) written in python using the [discord.py](https://github.com/Rapptz/discord.py)  
+AMA Bot has been used to host guests like Rene Ritchie and Tailosive Tech, with hundreds of thousands of internet followers  
 There is no publicly available instance being hosted, but it's fairly easy to set up the bot for use in your own server
 
 For support, join [my Discord Guild](https://discord.com/invite/zrBqN2v) or email support@bensonkitia.me
@@ -13,7 +13,7 @@ For support, join [my Discord Guild](https://discord.com/invite/zrBqN2v) or emai
 
 - [Python](https://www.python.org/downloads/) (3.8 or later reccomended)
 - [pydsl](https://pypi.org/project/pydsl/)
-- [discord.py](https://github.com/) 
+- [discord.py](https://github.com/)
 - [pymongo](https://pypi.org/project/pymongo/)
 - A [MongoDB](https://www.mongodb.com/) account and cluster (this is free)
 - A Discord [application and bot account](https://discord.com/developers/applications/me) (also free)
@@ -37,6 +37,8 @@ For support, join [my Discord Guild](https://discord.com/invite/zrBqN2v) or emai
 When a user posts a question (with a question mark) in the specified submission channel it'll be sent to the queue channel. When a mod approves the question with a reaction it'll be sent to a channel where the guest can answer the question by quoting it and typing a reply.
 
 The queue channel should only be viewable by mods and the guest answer channel should only be viewable by mods and the guest
+
+If you're going to be utilizing the a!ban and a!unban commands, make sure that the role set under BAN_ROLE_ID in the config file does not have speaking access in the submission channel.
 
 Run a!help to get a list of commands, they're all self-explanatory.
 
