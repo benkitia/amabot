@@ -13,6 +13,7 @@ For support, join [my Discord Guild](https://discord.com/invite/zrBqN2v) or emai
 
 - [Python](https://www.python.org/downloads/) (3.8 or later reccomended)
 - [pydsl](https://pypi.org/project/pydsl/)
+- [dnspython](https://pypi.org/project/dnspython/)
 - [discord.py](https://github.com/)
 - [pymongo](https://pypi.org/project/pymongo/)
 - A [MongoDB](https://www.mongodb.com/) account and cluster (this is free)
