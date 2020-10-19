@@ -3,8 +3,9 @@ from discord.ext import commands
 from datetime import datetime, date, time
 import time
 
+
 class Backend(commands.Cog):
-    
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -16,6 +17,7 @@ class Backend(commands.Cog):
             return await ctx.send(":x: You do not have permission to run this command.")
         if isinstance(error, commands.errors.MissingRole):
             return await ctx.send(":x: You do not have permission to run this command.")
+
 
 def setup(bot):
     bot.add_cog(Backend(bot))

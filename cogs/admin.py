@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from copy import deepcopy
 
+
 class Admin(commands.Cog):
 
     def __init__(self, bot):
@@ -46,13 +47,13 @@ class Admin(commands.Cog):
         except discord.Forbidden:
             return await arthur.send("<:error:696628928458129488> I couldn't say that because I don't have sufficient permissions")
         try:
-           await ctx.message.delete()
+            await ctx.message.delete()
         except discord.Forbidden:
             return await arthur.send("<:error:696628928458129488> I couldn't delete your invocation message because I don't have sufficient permissions")
 
     @commands.command()
     @commands.is_owner()
-    async def setpresence(self, ctx, type:int, *, presence:str):
+    async def setpresence(self, ctx, type: int, *, presence: str):
         await self.bot.change_presence(activity=discord.Activity(name=presence, type=type))
         await ctx.send(f":ok_hand: Bot presence set to `{presence}`")
 
@@ -63,7 +64,7 @@ class Admin(commands.Cog):
 
     @commands.command()
     @commands.is_owner()
-    async def messageuser(self, ctx, member:discord.Member, *, message):
+    async def messageuser(self, ctx, member: discord.Member, *, message):
         try:
             await member.send(message)
             await ctx.send(f":incoming_envelope: Sent message to {member}: `{message}`")
@@ -94,6 +95,7 @@ class Admin(commands.Cog):
             await ctx.send(f":ok_hand: left {guild.name}")
         except:
             await ctx.send("Error leaving guild")
+
 
 def setup(bot):
     bot.add_cog(Admin(bot))
