@@ -1,6 +1,5 @@
 import discord
 from discord.ext import commands
-from copy import deepcopy
 
 
 class Admin(commands.Cog):
