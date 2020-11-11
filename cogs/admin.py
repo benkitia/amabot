@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-
+import Config
 
 class Admin(commands.Cog):
 
@@ -8,7 +8,7 @@ class Admin(commands.Cog):
         self.bot = bot
 
     @commands.command(hidden=True)
-    @commands.is_owner()
+    @commands.has_role(Config.ADMIN_ROLE_ID)
     async def load(self, ctx, *, module):
         try:
             self.bot.load_extension(f'cogs.{module}')
@@ -18,7 +18,7 @@ class Admin(commands.Cog):
             await ctx.send(f':ok_hand: Loaded extension: {module}')
 
     @commands.command(hidden=True)
-    @commands.is_owner()
+    @commands.has_role(Config.ADMIN_ROLE_ID)
     async def unload(self, ctx, *, module):
         try:
             self.bot.unload_extension(f'cogs.{module}')
@@ -28,7 +28,7 @@ class Admin(commands.Cog):
             await ctx.send(f':ok_hand: Unloaded extension: {module}')
 
     @commands.command(hidden=True)
-    @commands.is_owner()
+    @commands.has_role(Config.ADMIN_ROLE_ID)
     async def reload(self, ctx, *, module):
         try:
             self.bot.reload_extension(f'cogs.{module}')
@@ -38,7 +38,7 @@ class Admin(commands.Cog):
             await ctx.send(f':ok_hand: reloaded extension: {module}')
 
     @commands.command()
-    @commands.is_owner()
+    @commands.has_role(Config.ADMIN_ROLE_ID)
     async def say(self, ctx, *, content):
         arthur = ctx.message.author
         try:
@@ -51,18 +51,18 @@ class Admin(commands.Cog):
             return await arthur.send("<:error:696628928458129488> I couldn't delete your invocation message because I don't have sufficient permissions")
 
     @commands.command()
-    @commands.is_owner()
+    @commands.has_role(Config.ADMIN_ROLE_ID)
     async def setpresence(self, ctx, type: int, *, presence: str):
         await self.bot.change_presence(activity=discord.Activity(name=presence, type=type))
         await ctx.send(f":ok_hand: Bot presence set to `{presence}`")
 
     @commands.command(aliases=['logout'], description="Logs the bot out", hidden=True)
-    @commands.is_owner()
+    @commands.has_role(Config.ADMIN_ROLE_ID)
     async def close(self, ctx):
         await self.bot.close()
 
     @commands.command()
-    @commands.is_owner()
+    @commands.has_role(Config.ADMIN_ROLE_ID)
     async def messageuser(self, ctx, member: discord.Member, *, message):
         try:
             await member.send(message)
@@ -71,7 +71,7 @@ class Admin(commands.Cog):
             await ctx.send(f":x: Failed to send message to {member.name}. Their DMs are likely closed.")
 
     @commands.command(hidden=True)
-    @commands.is_owner()
+    @commands.has_role(Config.ADMIN_ROLE_ID)
     async def sudo(self, ctx, user: discord.Member, *, command):
         new_msg = ctx.message
         new_msg.author = user
@@ -79,7 +79,7 @@ class Admin(commands.Cog):
         await self.bot.process_commands(new_msg)
 
     @commands.command(hidden=True)
-    @commands.is_owner()
+    @commands.has_role(Config.ADMIN_ROLE_ID)
     async def leave(self, ctx, *, guildinput):
         try:
             guildid = int(guildinput)
