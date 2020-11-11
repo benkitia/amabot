@@ -4,7 +4,7 @@ import Config
 
 bot = commands.Bot(command_prefix=Config.PREFIX)
 
-cogs = ['cogs.admin', 'cogs.ama']
+cogs = ['cogs.admin', 'cogs.ama','cogs.backend']
 
 cluster = Config.CLUSTER
 db = cluster["amabot"]
