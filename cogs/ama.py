@@ -44,12 +44,13 @@ class AMA(commands.Cog):
             await message.add_reaction('☑️')
         submission_channel = self.bot.get_channel(Config.SUMBISSION_CHANNEL_ID)
         if ctx.message.channel.id == submission_channel.id:
-            if not ctx.message.content.endswith("?"):
-                if ctx.message.content.startswith("a!"):
-                    return
-                if ctx.message.author.id == self.bot.user.id:
-                    return
-                return await ctx.send(f"{ctx.message.author.mention} questions must end with a `?` else they won't be submitted")
+            if ctx.message.author.id == self.bot.user.id:
+                return
+            if ctx.message.content.startswith(Config.PREFIX):
+                return
+            if Config.REQUIRE_QUESTION_MARK:
+                if not ctx.message.content.endswith("?"):
+                    return await ctx.send(f"{ctx.message.author.mention} questions must end with a `?` else they won't be submitted")
             if ctx.message.content.endswith("?"):
                 queue_channel = self.bot.get_channel(Config.QUEUE_CHANNEL_ID)
                 question = ctx.message.content

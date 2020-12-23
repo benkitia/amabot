@@ -31,6 +31,8 @@ ADMIN_ROLE_ID = 123456789012345678 # The role ID of the administrator/server man
 
 COLOR = 0x000000 # The hex value for the color you'd like the bot to use for embeds. Enter it after "0x" WITHOUT #
 
+REQUIRE_QUESTION_MARK = True # Whether you want the bot to reject questions not ending with a "?". Set this to True or False (case)
+
 
 # THE BOT WILL BREAK IF ALL OF THE INT VALUES ARE NOT REPLACED!
 # MAKING MAJOR EDITS TO THIS FILE OUTSIDE OF THE DIRECTIONS IN DOCUMENTATION WILL CAUSE THE BOT TO BREAK
