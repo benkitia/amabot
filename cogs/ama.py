@@ -219,8 +219,6 @@ class AMA(commands.Cog):
     async def unban(self, ctx, target: discord.Member = None, *, reason=None):
         if target == None:
             return await ctx.send(":x: You must provide a member to unmute")
-        if target.id == ctx.message.author.id:
-            await ctx.send(":x: You can't unmute yourself, silly")
         role = discord.utils.get(ctx.guild.roles, id=Config.BAN_ROLE_ID)
         await target.remove_roles(role, reason=reason)
         await ctx.send(f":ok_hand: unmuted {target} (`{reason}`)")
