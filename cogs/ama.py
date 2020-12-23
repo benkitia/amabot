@@ -81,7 +81,7 @@ class AMA(commands.Cog):
             qpost = await queue_channel.send(questionid, embed=embed)
             await qpost.add_reaction('☑️')
             await qpost.add_reaction('❌')
-            await ctx.send(f"{ctx.message.author.mention} Your question: `{question}` has been sent to mods for approval. Thank you for participating! Question ID: {questionid}")
+            await ctx.send(f"{ctx.message.author.mention} Your question: `{question}` has been sent to moderators for approval. Thank you for participating! Question ID: {questionid}")
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
@@ -209,7 +209,7 @@ class AMA(commands.Cog):
         role = discord.utils.get(ctx.guild.roles, id=Config.BAN_ROLE_ID)
         await target.add_roles(role, reason=f"{ctx.message.author}: {reason}")
         await ctx.send(f":ok_hand: banned {target} from AMA channels (`{reason}`)")
-        log_channel = self.bot.get_channel(config.LOG_CHANNEL_ID)
+        log_channel = self.bot.get_channel(Config.LOG_CHANNEL_ID)
         embed = discord.Embed(
             title="User AMA banned", description=f"{target} ({target.id}) banned by {ctx.message.author}\nReason: {reason}", color=0xff563a)
         await log_channel.send(embed=embed)
@@ -224,7 +224,7 @@ class AMA(commands.Cog):
         role = discord.utils.get(ctx.guild.roles, id=Config.BAN_ROLE_ID)
         await target.remove_roles(role, reason=reason)
         await ctx.send(f":ok_hand: unmuted {target} (`{reason}`)")
-        log_channel = self.bot.get_channel(config.LOG_CHANNEL_ID)
+        log_channel = self.bot.get_channel(Config.LOG_CHANNEL_ID)
         embed = discord.Embed(title="User AMA unbarred",
                               description=f"{target} ({target.id}) unmuted by {ctx.message.author}\nReason: {reason}", color=0x18ec6b)
         await log_channel.send(embed=embed)
