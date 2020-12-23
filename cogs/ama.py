@@ -51,35 +51,37 @@ class AMA(commands.Cog):
             if Config.REQUIRE_QUESTION_MARK:
                 if not ctx.message.content.endswith("?"):
                     return await ctx.send(f"{ctx.message.author.mention} questions must end with a `?` else they won't be submitted")
-            if ctx.message.content.endswith("?"):
-                queue_channel = self.bot.get_channel(Config.QUEUE_CHANNEL_ID)
-                question = ctx.message.content
-                finddupe = questions.find_one({"question": question})
-                if finddupe:
-                    return await ctx.send(f"{ctx.message.author.mention} Your question has been automatically denied: duplicate")
+            queue_channel = self.bot.get_channel(Config.QUEUE_CHANNEL_ID)
+            question = ctx.message.content
+            finddupe = questions.find_one({"question": question})
+            if finddupe:
+                return await ctx.send(f"{ctx.message.author.mention} Your question has been automatically denied: duplicate")
+            questionid = random.randint(1000000000, 9999999999)
+            find_duplicate_question_id = questions.find_one({"qid":str(questionid)})
+            while find_duplicate_question_id:
                 questionid = random.randint(1000000000, 9999999999)
-                newquestion = {
-                    "user": str(ctx.message.author.id),
-                    "qid": str(questionid),
-                    "question": str(question),
-                    "status": "Pending",
-                    "mod": ""
-                }
-                questions.insert_one(newquestion)
-                embed = discord.Embed(
-                    title=f"New question",
-                    description=question,
-                    color=Config.COLOR
-                )
-                embed.set_author(
-                    name=f"{ctx.message.author} ({ctx.message.author.id})",
-                    icon_url=ctx.message.author.avatar_url
-                )
-                embed.set_footer(text=f"Question ID: {questionid}")
-                qpost = await queue_channel.send(questionid, embed=embed)
-                await qpost.add_reaction('☑️')
-                await qpost.add_reaction('❌')
-                await ctx.send(f"{ctx.message.author.mention} Your question: `{question}` has been sent to mods for approval. Thank you for participating! Question ID: {questionid}")
+            newquestion = {
+                "user": str(ctx.message.author.id),
+                "qid": str(questionid),
+                "question": str(question),
+                "status": "Pending",
+                "mod": ""
+            }
+            questions.insert_one(newquestion)
+            embed = discord.Embed(
+                title=f"New question",
+                description=question,
+                color=Config.COLOR
+            )
+            embed.set_author(
+                name=f"{ctx.message.author} ({ctx.message.author.id})",
+                icon_url=ctx.message.author.avatar_url
+            )
+            embed.set_footer(text=f"Question ID: {questionid}")
+            qpost = await queue_channel.send(questionid, embed=embed)
+            await qpost.add_reaction('☑️')
+            await qpost.add_reaction('❌')
+            await ctx.send(f"{ctx.message.author.mention} Your question: `{question}` has been sent to mods for approval. Thank you for participating! Question ID: {questionid}")
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
