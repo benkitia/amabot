@@ -1,53 +1,44 @@
 # AMA Bot
 
 AMA Bot is an open-source Discord bot for hosting crown-sourced interviews right in your Discord server.  
-The bot was originally made for the [r/iPhone Discord](https://iphonediscord.info) by [waffles](https://bensonkitia.me) written in python using the [discord.py](https://github.com/Rapptz/discord.py)  
+
 AMA Bot has been used to host guests like Rene Ritchie and Tailosive Tech, with hundreds of thousands of internet followers  
-There is no publicly available instance being hosted, but it's fairly easy to set up the bot for use in your own server
 
-For support, join [my Discord Guild](https://discord.com/invite/zrBqN2v) or email support@bensonkitia.me
-
+There is no publicly available instance being hosted, but it's fairly easy to set up the bot for use in your own server  
 ## Hosting your own instance
-
 ### Prerequisites
 
-- [Python](https://www.python.org/downloads/) (3.8 or later reccomended)
-- [pydsl](https://pypi.org/project/pydsl/)
-- [dnspython](https://pypi.org/project/dnspython/)
-- [discord.py](https://github.com/)
-- [pymongo](https://pypi.org/project/pymongo/)
+- [Python](https://www.python.org/downloads/) version 3.9 or higher
 - A [MongoDB](https://www.mongodb.com/) account and cluster (this is free)
 - A Discord [application and bot account](https://discord.com/developers/applications/me) (also free)
+- [Git](https://git-scm.com/downloads)
 
 ### Guide
 
-1. Clone the respository or download the source code with the big green button near the top of the repo
+1. Clone the repository: `git clone https://github.com/wwwaffles/hf1.git`
 2. Login with your Discord account [here](https://discord.com/developers/applications) and click "New Application"
 3. Click "Bot", then "Add Bot", then "Yes, do it"
 4. Name your bot and add a profile picture (optional)
-5. Find and save your token somewhere safe
-6. Create a MongoDB cluster, this should be easy to figure out. Use Google as a resource if you're having difficulties
-7. Create a database called "amabot" with a collection called "questions"
-8. Rename configexample.py to Config.py and replace the variables as described in the file
-9. Navigate to the main bot folder in terminal and type `python main.py` if you're on Windows, and `python3 main.py` if you're on a unix-based OS (macOS or Linux)
+5. Copy and save your token somewhere safe
+6. Create a MongoDB cluster, this should be easy to figure out. Give a database user access to the amabot collection and grab a URI for that user. Use Google as a resource if you're having difficulties
+7. Create a collection called "amabot"
+8. Rename config_example.py to config.py and replace the variables as described in the file
+9. Rename .env.example to .env and paste in your Discord bot token and Mongo URI
+9. Navigate to the main bot folder in terminal and type run `pipenv install`
+10. Run `pipenv run python3 main.py`
 
-For support, join [my Discord Guild](https://discord.com/invite/zrBqN2v) or email support@bensonkitia.me
+For support, join [my Discord Guild](https://discord.com/invite/zrBqN2v)
 
 ## Using The Bot
 
-When a user posts a question (with a question mark) in the specified submission channel it'll be sent to the queue channel. When a mod approves the question with a reaction it'll be sent to a channel where the guest can answer the question by quoting it and typing a reply.
+When a user posts a question (with a question mark) in the specified submission channel it'll be sent to the queue channel. When a mod approves the question with a reaction it'll be sent to the ama channel where the guest can answer the question by replying to the message using Discord's built-in replies  
 
-The queue channel should only be viewable by mods and the guest answer channel should only be viewable by mods and the guest
+The queue channel should only be viewable by mods and the guest answer channel should only be viewable by mods and the guest.  
 
-If you're going to be utilizing the a!ban and a!unban commands, make sure that the role set under BAN_ROLE_ID in the config file does not have speaking access in the submission channel.
-
-Run a!help to get a list of commands, they're all self-explanatory.
-
-For support, join [my Discord Guild](https://discord.com/invite/zrBqN2v) or email support@bensonkitia.me
+Run the help command to get a list of commands, they're all self-explanatory.  
 
 ## Contributing
 
-I encourage community contributions! I'll merge any helpful pull requests
-Use [this](http://www.contribution-guide.org/) as a guide
+I encourage community contributions! I'll merge any helpful pull requests  
 
-Copyright © 2020 Benson Kitia
+Use [this](http://www.contribution-guide.org/) as a guide  

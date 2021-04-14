@@ -1,4 +1,6 @@
 
-Config.py
-*.pyc
-*.vscode
+config.py
+
+.env
+
+.DS_Store
