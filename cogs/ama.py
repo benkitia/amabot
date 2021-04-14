@@ -87,7 +87,7 @@ class AMA(commands.Cog):
 			await self.db.questions.update_one(question, {"$set": {"answer" : answer}})
 			# Sends to AMA channel
 			question = await self.db.questions.find_one({"_id" : question_id})
-			submitter = self.bot.get_user(int(question["submitter"]))
+			submitter = await self.bot.fetch_user(int(question["submitter"]))
 			content = question["content"]
 			answer = question["answer"]
 			embed = discord.Embed(
@@ -128,7 +128,7 @@ class AMA(commands.Cog):
 					description = question["content"],
 					color = self.config.color
 				)
-				submitter = self.bot.get_user(int(question["submitter"]))
+				submitter = await self.bot.fetch_user(int(question["submitter"]))
 				embed.set_author(
 					name = str(submitter),
 					icon_url = submitter.avatar_url
@@ -150,7 +150,7 @@ class AMA(commands.Cog):
 				await reaction.message.delete()
 				# Notifies submitter
 				question = await self.db.questions.find_one({"_id" : question_id})
-				submitter = self.bot.get_user(int(question["submitter"]))
+				submitter = await self.bot.fetch(int(question["submitter"]))
 				submission_channel = discord.utils.get(ctx.guild.text_channels, id = self.config.submission_channel_id)
 				await submission_channel.send(f"{submitter.mention} your question {question_id} was denied by moderators.")
 
