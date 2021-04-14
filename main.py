@@ -12,10 +12,6 @@ from pymongo import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
 import sys
 
-intents = discord.Intents.default()
-intents.members = True
-intents.guilds = True
-
 DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
 MONGO_URI = os.environ.get("MONGO_URI", "mongodb://127.0.0.1")
 
@@ -26,8 +22,7 @@ class AMAbot(commands.Bot):
 	def __init__(self):
 		super().__init__(
 			command_prefix = Config.prefix,
-			description = "Host crowd sources Q&As directly in your Discord guild. https://github.com/wwwaffles/amabot",
-			intents = intents
+			description = "Host crowd sources Q&As directly in your Discord guild. https://github.com/wwwaffles/amabot"
 		)
 
 		self.config = Config()
