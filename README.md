@@ -15,7 +15,7 @@ There is no publicly available instance being hosted, but it's fairly easy to se
 
 ### Guide
 
-1. Clone the repository: `git clone https://github.com/wwwaffles/hf1.git`
+1. Clone the repository: `git clone https://github.com/wwwaffles/amabot.git`
 2. Login with your Discord account [here](https://discord.com/developers/applications) and click "New Application"
 3. Click "Bot", then "Add Bot", then "Yes, do it"
 4. Name your bot and add a profile picture (optional)
