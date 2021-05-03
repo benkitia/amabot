@@ -150,7 +150,7 @@ class AMA(commands.Cog):
 				await reaction.message.delete()
 				# Notifies submitter
 				question = await self.db.questions.find_one({"_id" : question_id})
-				submitter = await self.bot.fetch(int(question["submitter"]))
+				submitter = await self.bot.fetch_user(int(question["submitter"]))
 				submission_channel = discord.utils.get(ctx.guild.text_channels, id = self.config.submission_channel_id)
 				await submission_channel.send(f"{submitter.mention} your question {question_id} was denied by moderators.")
 
