@@ -9,7 +9,6 @@ class Config:
     queue_channel_id = 123456789012345678 # The channel where questions are approved/denied. Only moderators should have access to this channel.
     answering_channel_id = 123456789012345678 # The channel where the guest responds to questions in. This channel should only be visible to the guest and as little users as possible.
     ama_channel_id = 123456789012345678 # The channel where questions and answers are posted. Should be visible to the everyone and no one should be able to send messages.
-    log_channel_id = 123456789012345678 # The channel where all actions are logged
 
     guest_name = "Trisha Paytas" # The guest's name
     guest_avatar_url = "https://i.imgur.com/Y7po41E.jpg" # An avatar URL for the guest
