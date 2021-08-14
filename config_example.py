@@ -1,5 +1,5 @@
 # The bot will not work if all of the integer values are not replaced.
-# Making any edits outside of replacing values isn't reccomended and could break the bot.
+# Making any edits outside of replacing values isn't recommended and could break the bot.
 # Make sure you rename this file config.py
 
 import os
@@ -16,4 +16,4 @@ class Config:
     color = 0x000000 # The accent color for embeds
     require_question_mark = True # Whether you want the bot to reject questions not ending in a "?". Don't forget the capital T or F
     guild_id = 123456789012345678 # The ID for the guild in which the AMA is being hosted
-    prefix = "a!" # The desired charectar(s) preceeding a command
+    prefix = "a!" # The desired character(s) preceding a command
