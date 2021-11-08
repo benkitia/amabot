@@ -1,11 +1,13 @@
 # AMA Bot
 
-AMA Bot is an open-source Discord bot for hosting crown-sourced interviews right in your Discord server.  
+AMA Bot is an open-source Discord bot for hosting crowd-sourced interviews right inside a Discord server.  
 
-AMA Bot has been used to host guests like Rene Ritchie and Tailosive Tech, with hundreds of thousands of internet followers  
+AMA Bot has been used to host guests like Rene Ritchie and Tailosive Tech, with hundreds of thousands of internet followers.
 
-There is no publicly available instance being hosted, but it's fairly easy to set up the bot for use in your own server  
+There is no publicly available instance being hosted, but it's fairly easy to set up the bot for use in your server.
+
 ## Hosting your own instance
+
 ### Prerequisites
 
 - [Python](https://www.python.org/downloads/) version 3.9 or higher
@@ -13,7 +15,7 @@ There is no publicly available instance being hosted, but it's fairly easy to se
 - A Discord [application and bot account](https://discord.com/developers/applications/me) (also free)
 - [Git](https://git-scm.com/downloads)
 
-### Guide
+### Installing
 
 1. Clone the repository: `git clone https://github.com/wwwaffles/amabot.git`
 2. Login with your Discord account [here](https://discord.com/developers/applications) and click "New Application"
@@ -24,10 +26,8 @@ There is no publicly available instance being hosted, but it's fairly easy to se
 7. Create a collection called "amabot"
 8. Rename config_example.py to config.py and replace the variables as described in the file
 9. Rename .env.example to .env and paste in your Discord bot token and Mongo URI
-9. Navigate to the main bot folder in terminal and type run `pipenv install`
-10. Run `pipenv run python3 main.py`
-
-For support, join [my Discord Guild](https://discord.com/invite/zrBqN2v)
+10. Navigate to the main bot folder in terminal and run `pipenv install`
+11. Run `pipenv run python3 main.py`
 
 ## Using The Bot
 
