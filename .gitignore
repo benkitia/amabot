@@ -1,6 +1,7 @@
-
 config.py
-
 .env
-
 .DS_Store
+.vscode/settings.json
+__pycache__
+*.log
+Pipfile.lock

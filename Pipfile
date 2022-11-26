@@ -5,13 +5,11 @@ name = "pypi"
 
 [packages]
 aiohttp = "*"
-asyncio = "*"
+asyncio = "*" 
+asyncpg = "*"
 discord = "*"
-pymongo = "*"
-motor = "*"
-dnspython = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3.11"
